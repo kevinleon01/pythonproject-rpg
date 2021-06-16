@@ -16,12 +16,7 @@ skeleton = Skeleton('The Skeleton', 6, 3)
 # initiate items
 potion = Potion('potion of health', 9)
 poison = Poison('potion of poison', 9)
-bomb = Bomb('bomb', 6)
-
-# create supplementary functions
-# def use_potion(char):
-#         print("You used 'potion'")
-#         char.health += potion.health
+bomb = Bomb('bomb', 10)
 
 # def use_poison(char):
 #         print("You used poison")
@@ -73,7 +68,7 @@ among the thicket of trees.
 
 def print_meeting_villager():
     print("""
-You left the previous fight victorious.
+You left the previous fight.
 
             ...
 
@@ -93,13 +88,14 @@ def print_meeting_villager_two():
             ...
 
 Out of pure coincidence, you have once again
-come across the villager from before.
+come across what seems like the villager from before.
 I suppose they could've gotten ahead of you
 while you were tied up with the zombie.
 
-You stop to talk to him before 
+You try and stop to talk to him before 
 continuing forth.
     """)
+
 
 def print_almost_there():
     print("""
@@ -197,8 +193,10 @@ def zombiefight():
                     who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
                     if who_to_use == 1:
                         current_item.use(hero)
+                        del hero.items[answer]
                     elif who_to_use == 2:
                         current_item.use(zombie)
+                        del hero.items[answer]
         else:
             print("Invalid input %r" % user_input)
 
@@ -244,18 +242,18 @@ def skeletonfight():
                     else:
                         print("Invalid input %r" % user_input)
                 elif len(hero.items) == 2:
-                    print("Which item would you like to use? ")
+                    print("Which item would you like to use? (type item number) ")
                     print(hero.items[0])
                     choice = int(input())
                     answer = choice - 1
                     current_item = hero.items[answer]
-                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
+                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy: "))
                     if who_to_use == 1:
                         current_item.use(hero)
-                        del hero.items[current_item]
+                        del hero.items[answer]
                     elif who_to_use == 2:
                         current_item.use(skeleton)
-                        del hero.items[current_item]
+                        del hero.items[answer]
                     else:
                         print("Invalid input %r" % user_input)
         else:
@@ -296,8 +294,10 @@ def villagertalk():
                     who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
                     if who_to_use == 1:
                         current_item.use(hero)
+                        del hero.items[answer]
                     elif who_to_use == 2:
                         current_item.use(villager)
+                        del hero.items[answer]
                 elif len(hero.items) == 2:
                     print("Which item would you like to use? ")
                     print(hero.items[0])
@@ -307,8 +307,10 @@ def villagertalk():
                     who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
                     if who_to_use == 1:
                         current_item.use(hero)
+                        del hero.items[answer]
                     elif who_to_use == 2:
                         current_item.use(villager)
+                        del hero.items[answer]
         elif user_input == "5":
             item_number = random.randint(1, 4)
             if item_number == 1:
@@ -351,15 +353,25 @@ def villagertalk():
 # compile story
 def main():
     print_opener()
+    time.sleep(3)
     goblinfight()
+    time.sleep(3)
     print_meeting_villager()
+    time.sleep(3)
     villagertalk()
+    time.sleep(3)
     print_continuing_on()
+    time.sleep(3)
     zombiefight()
+    time.sleep(3)
     print_meeting_villager_two()
+    time.sleep(3)
     villagertalk()
+    time.sleep(3)
     print_almost_there()
+    time.sleep(3)
     skeletonfight()
+    time.sleep(3)
     print_made_it()
 
 # run the game

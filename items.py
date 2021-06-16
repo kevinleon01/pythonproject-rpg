@@ -36,7 +36,8 @@ class Bomb(Items):
         self.health = 0 
     
     def use(self, other):
-        other.health -= self.health
+        other.health -= self.power
+        print(f"{other.name} health decreased to {other.health}")
 
 
 
