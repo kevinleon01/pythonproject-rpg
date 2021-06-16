@@ -235,10 +235,10 @@ def skeletonfight():
                     who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
                     if who_to_use == 1:
                         current_item.use(hero)
-                        del hero.items[current_item]
+                        del hero.items[answer]
                     elif who_to_use == 2:
                         current_item.use(skeleton)
-                        del hero.items[current_item]
+                        del hero.items[answer]
                     else:
                         print("Invalid input %r" % user_input)
                 elif len(hero.items) == 2:
