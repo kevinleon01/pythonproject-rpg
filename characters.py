@@ -14,6 +14,9 @@ class Character:
         other_char.health -= self.power
         print(f"{self.name} did {self.power} damage to the enemy.")
 
+class Undead(Character):
+    undead = True
+
 #set up charcater subclasses
 class Goblin(Character):
     def __init__(self, name, health, power):
@@ -29,7 +32,7 @@ class Hero(Character):
         self.items = items
         items = []
 
-class Zombie(Character):
+class Zombie(Undead):
     def __init__(self, name, health, power):
         self.name = name
         self.health = health
@@ -43,7 +46,7 @@ class Villager(Character):
         self.items = items
         items = []
 
-class Skeleton(Character):
+class Skeleton(Undead):
     def __init__(self, name, health, power):
         self.name = name
         self.health = health

@@ -1,7 +1,8 @@
 #import necessary stuff
 import random
+import time
 from characters import Character, Hero, Villager, Goblin, Zombie, Skeleton
-from items import Potion, Bomb
+from items import Potion, Poison, Bomb
 
 # initiate characters
 goblin  = Goblin( 'The Goblin', 6, 2)
@@ -10,22 +11,24 @@ villager = Villager('The Villager', 8, 1, [])
 zombie = Zombie('The Zombie', 15, 1)
 skeleton = Skeleton('The Skeleton', 6, 3)
 
+#time.sleep(/seconds to wait/)
+
 # initiate items
 potion = Potion('potion of health', 9)
-potion_two = Potion('potion of poison', 9)
+poison = Poison('potion of poison', 9)
 bomb = Bomb('bomb', 6)
 
 # create supplementary functions
-def use_potion(char):
-        print("You used 'potion'")
-        char.health += potion.health
+# def use_potion(char):
+#         print("You used 'potion'")
+#         char.health += potion.health
 
-def use_poison(char):
-        print("You used poison")
-        if char == 'zombie' or char == 'skeleton':
-            char.health += potion_two.health
-        else:
-            char.health -= potion_two.health  
+# def use_poison(char):
+#         print("You used poison")
+#         if char == 'zombie' or char == 'skeleton':
+#             char.health += potion_two.health
+#         else:
+#             char.health -= potion_two.health  
 
 def use_bomb(char):
     print("You used bomb")
@@ -53,7 +56,9 @@ def print_villager_menu():
     print("> ",)
 
 def print_items(self):
-    print(str(self.items))
+    for items in self.items:
+        print("Your items: ")
+        print(items)
 
 def print_opener():
     print("""
@@ -146,12 +151,14 @@ def goblinfight():
                     print(hero.items[0])
                     choice = int(input())
                     answer = choice - 1
-                    if hero.items[answer] == 'potion':
-                        use_potion(potion, hero)
-                    elif hero.items[answer] == 'potion_two':
-                        use_poison(potion_two, goblin)
-                    elif hero.items[answer] == 'bomb':
-                        use_bomb(bomb, goblin)
+                    current_item = hero.items[answer]
+                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
+                    if who_to_use == 1:
+                        current_item.use(hero)
+                    elif who_to_use == 2:
+                        current_item.use(zombie)
+                    else:
+                        print("Invalid input %r" % user_input)
         else:
             print("Invalid input %r" % user_input)
 
@@ -186,12 +193,12 @@ def zombiefight():
                     print(hero.items[0])
                     choice = int(input())
                     answer = choice - 1
-                    if hero.items[answer] == 'potion of health':
-                        use_potion(hero)
-                    elif hero.items[answer] == 'potion of poison':
-                        use_poison(zombie)
-                    elif hero.items[answer] == 'bomb':
-                        use_bomb(zombie)
+                    current_item = hero.items[answer]
+                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
+                    if who_to_use == 1:
+                        current_item.use(hero)
+                    elif who_to_use == 2:
+                        current_item.use(zombie)
         else:
             print("Invalid input %r" % user_input)
 
@@ -226,12 +233,31 @@ def skeletonfight():
                     print(hero.items[0])
                     choice = int(input())
                     answer = choice - 1
-                    if hero.items[answer] == 'potion':
-                        use_potion(potion, hero)
-                    elif hero.items[answer] == 'potion_two':
-                        use_poison(potion_two, skeleton)
-                    elif hero.items[answer] == 'bomb':
-                        use_bomb(bomb, skeleton)
+                    current_item = hero.items[answer]
+                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
+                    if who_to_use == 1:
+                        current_item.use(hero)
+                        del hero.items[current_item]
+                    elif who_to_use == 2:
+                        current_item.use(skeleton)
+                        del hero.items[current_item]
+                    else:
+                        print("Invalid input %r" % user_input)
+                elif len(hero.items) == 2:
+                    print("Which item would you like to use? ")
+                    print(hero.items[0])
+                    choice = int(input())
+                    answer = choice - 1
+                    current_item = hero.items[answer]
+                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
+                    if who_to_use == 1:
+                        current_item.use(hero)
+                        del hero.items[current_item]
+                    elif who_to_use == 2:
+                        current_item.use(skeleton)
+                        del hero.items[current_item]
+                    else:
+                        print("Invalid input %r" % user_input)
         else:
             print("Invalid input %r" % user_input)
 
@@ -255,6 +281,34 @@ def villagertalk():
         elif user_input == "3":
             print("Goodbye.")
             break
+        elif user_input == "4":
+            use = input("Do you want to use an item? (y/n) ").lower()
+            if use == 'y':
+                if len(hero.items) == 0:
+                    print("You do not have any items!")
+                    pass
+                elif len(hero.items) == 1:
+                    print("Which item would you like to use? ")
+                    print(hero.items[0])
+                    choice = int(input())
+                    answer = choice - 1
+                    current_item = hero.items[answer]
+                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
+                    if who_to_use == 1:
+                        current_item.use(hero)
+                    elif who_to_use == 2:
+                        current_item.use(villager)
+                elif len(hero.items) == 2:
+                    print("Which item would you like to use? ")
+                    print(hero.items[0])
+                    choice = int(input())
+                    answer = choice - 1
+                    current_item = hero.items[answer]
+                    who_to_use = int(input("Who do you want to use the item on? '1' for hero, '2' for enemy"))
+                    if who_to_use == 1:
+                        current_item.use(hero)
+                    elif who_to_use == 2:
+                        current_item.use(villager)
         elif user_input == "5":
             item_number = random.randint(1, 4)
             if item_number == 1:
@@ -272,7 +326,7 @@ def villagertalk():
                 
                 \"Seeya.\"
                 """)
-                hero.items.append(potion_two)
+                hero.items.append(poison)
                 print_items(hero)
                 break
             elif item_number == 3:
